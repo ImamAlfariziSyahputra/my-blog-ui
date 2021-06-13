@@ -14,6 +14,7 @@
           <!-- Email -->
           <b-form-input
             v-model="email"
+            type="email"
             class="mb-3"
             placeholder="Email"
             required
@@ -21,17 +22,23 @@
           <!-- Password -->
           <b-form-input
             v-model="password"
+            type="password"
             class="mb-4"
             placeholder="Password"
             required
           ></b-form-input>
-          <b-button variant="primary" class="mb-2" block>Login</b-button>
+          <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
+          <b-button @click="login" variant="primary" class="mb-2" block>Login</b-button>
           <small class="text-center d-block">
             Don't have accout?
             <router-link to="/register">
               Click here
             </router-link>
           </small>
+          <div v-if="user">
+            <p>Token : {{ token }}</p>
+            <p>User : {{ user }}</p>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -42,13 +49,36 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
       email: null,
       password: null,
+      error: null,
     };
   },
+  computed: {
+    ...mapState('user', ['user','token']),
+  },
+  methods: {
+    async login() {
+      this.error = null;
+      let data = {
+        email: this.email,
+        password: this.password,
+      };
+      // return console.log(data);
+      try {
+        await this.$store.dispatch('user/login', data);
+        this.$router.push('/');
+      } catch (err) {
+        console.log(err.response.data.message);
+        this.error = err.response.data.message;
+      }
+    }
+  }
 };
 </script>
 
