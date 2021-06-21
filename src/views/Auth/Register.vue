@@ -1,79 +1,62 @@
 <template>
-  <div class="container">
-    <div class="
-      border border-dark
-      mt-5
-      shadow-lg
-      d-flex
-      justify-content-between
-      no-gutters
-    ">
-      <div class="col-md-6 p-5">
-        <div class="mtc">
-          <h1 class="mb-4">Ready to Sign Up</h1>
-          <!-- Email -->
-          <b-form-input
-            v-model="email"
-            type="email"
-            class="mb-3"
-            placeholder="Email"
-            required
-          ></b-form-input>
-          <!-- Password -->
-          <b-form-input
-            v-model="password"
-            type="password"
-            class="mb-3"
-            placeholder="Password"
-            required
-          ></b-form-input>
-          <b-form-input
-            v-model="name"
-            type="text"
-            class="mb-3"
-            placeholder="Name"
-            required
-          ></b-form-input>
-          <b-form-select
-            v-model="gender"
-            :options="option"
-            class="mb-3"
-            required
-          ></b-form-select>
-          <b-form-input
-            v-model="number"
-            type="number"
-            class="mb-3"
-            placeholder="Number"
-            required
-          ></b-form-input>
-          <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
-          <b-button @click="register" variant="primary" class="mb-2" block>
-            Register
-          </b-button>
-          <small class="text-center d-block">
-            Already have accout?
-            <router-link to="/login">
-              Click here
-            </router-link>
-          </small>
-          <!-- <div v-if="user">
-            <p>Token : {{ token }}</p>
-            <p>User : {{ user }}</p>
-          </div> -->
-        </div>
-      </div>
-      <div class="col-md-6">
-        <img src="@/assets/steal-data.jpg" class="img-fluid border-left border-dark" >
-      </div>
-    </div>
-  </div>
+  <AuthPanel title="Ready to Sign Up">
+    <!-- Email -->
+    <b-form-input
+      v-model="email"
+      type="email"
+      class="mb-3"
+      placeholder="Email"
+      required
+    ></b-form-input>
+    <!-- Password -->
+    <b-form-input
+      v-model="password"
+      type="password"
+      class="mb-3"
+      placeholder="Password"
+      required
+    ></b-form-input>
+    <b-form-input
+      v-model="name"
+      type="text"
+      class="mb-3"
+      placeholder="Name"
+      required
+    ></b-form-input>
+    <b-form-select
+      v-model="gender"
+      :options="option"
+      class="mb-3"
+      required
+    ></b-form-select>
+    <b-form-input
+      v-model="number"
+      type="number"
+      class="mb-3"
+      placeholder="Number"
+      required
+    ></b-form-input>
+    <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
+    <b-button @click="register" variant="primary" class="mb-2" block>
+      Register
+    </b-button>
+    <small class="text-center d-block">
+      Already have accout?
+      <router-link to="/login">
+        Click here
+      </router-link>
+    </small>
+  </AuthPanel>
 </template>
 
 <script>
+import AuthPanel from '@/components/AuthPanel';
 import { mapState } from 'vuex';
 
 export default {
+  components: {
+    AuthPanel,
+  },
   data() {
     return {
       email: null,

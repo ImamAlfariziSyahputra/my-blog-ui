@@ -1,57 +1,40 @@
 <template>
-  <div class="container">
-    <div class="
-      border border-dark rounded
-      mt-5
-      shadow-lg
-      d-flex
-      justify-content-between
-      no-gutters
-    ">
-      <div class="col-md-6 p-5">
-        <div class="mtr-7">
-          <h1 class="mb-4">Welcome Back</h1>
-          <!-- Email -->
-          <b-form-input
-            v-model="email"
-            type="email"
-            class="mb-3"
-            placeholder="Email"
-            required
-          ></b-form-input>
-          <!-- Password -->
-          <b-form-input
-            v-model="password"
-            type="password"
-            class="mb-4"
-            placeholder="Password"
-            required
-          ></b-form-input>
-          <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
-          <b-button @click="login" variant="primary" class="mb-2" block>Login</b-button>
-          <small class="text-center d-block">
-            Don't have accout?
-            <router-link to="/register">
-              Click here
-            </router-link>
-          </small>
-          <div v-if="user">
-            <p>Token : {{ token }}</p>
-            <p>User : {{ user }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <img src="@/assets/steal-data.jpg" class="img-fluid border-left border-dark">
-      </div>
-    </div>
-  </div>
+  <AuthPanel title="Welcome Back">
+    <!-- Email -->
+    <b-form-input
+      v-model="email"
+      type="email"
+      class="mb-3"
+      placeholder="Email"
+      required
+    ></b-form-input>
+    <!-- Password -->
+    <b-form-input
+      v-model="password"
+      type="password"
+      class="mb-4"
+      placeholder="Password"
+      required
+    ></b-form-input>
+    <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
+    <b-button @click="login" variant="primary" class="mb-2" block>Login</b-button>
+    <small class="text-center d-block">
+      Don't have accout?
+      <router-link to="/register">
+        Click here
+      </router-link>
+    </small>
+  </AuthPanel>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import AuthPanel from '@/components/AuthPanel'
 
 export default {
+  components: {
+    AuthPanel,
+  },
   data() {
     return {
       email: null,
@@ -78,12 +61,12 @@ export default {
         this.error = err.response.data.message;
       }
     }
-  }
+  },
 };
 </script>
 
 <style scoped>
-  .mtr-7 {
-    margin-top: 5.5rem;
-  }
+.form-contain {
+  margin-top: 5.5rem;
+}
 </style>
