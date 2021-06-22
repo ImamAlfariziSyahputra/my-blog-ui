@@ -1,23 +1,40 @@
 <template>
   <AuthPanel title="Welcome Back">
-    <!-- Email -->
-    <b-form-input
-      v-model="email"
-      type="email"
-      class="mb-3"
-      placeholder="Email"
-      required
-    ></b-form-input>
-    <!-- Password -->
-    <b-form-input
-      v-model="password"
-      type="password"
-      class="mb-4"
-      placeholder="Password"
-      required
-    ></b-form-input>
-    <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
-    <b-button @click="login" variant="primary" class="mb-2" block>Login</b-button>
+    <ValidationObserver v-slot="{ handleSubmit }">
+      <form @submit.prevent="handleSubmit(login)">
+        <!-- Email -->
+        <ValidationProvider 
+          name="Email" 
+          rules="required|email" 
+          v-slot="{ errors }"
+        >
+          <b-form-input
+            v-model="email"
+            type="email"
+            placeholder="Email"
+            required
+          ></b-form-input>
+          <span class="text-danger">{{ errors[0] }}</span>
+        </ValidationProvider>
+        <!-- Password -->
+        <ValidationProvider 
+          name="Password" 
+          rules="required" 
+          v-slot="{ errors }"
+        >
+          <b-form-input
+            v-model="password"
+            type="password"
+            class="mt-3"
+            placeholder="Password"
+            required
+          ></b-form-input>
+          <span class="text-danger">{{ errors[0] }}</span>
+        </ValidationProvider>
+        <b-button type="submit" variant="primary" class="mb-2 mt-4" block>Login</b-button>
+        <b-alert v-if="error" show variant="danger">{{ error }}</b-alert>
+      </form>
+    </ValidationObserver>
     <small class="text-center d-block">
       Don't have accout?
       <router-link to="/register">

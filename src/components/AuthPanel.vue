@@ -3,10 +3,11 @@
     auth-container
     shadow-lg
     d-flex
+    justify-content-center
     no-gutters
     bg-light
   ">
-    <div class="col-md-6 px-5 bg-light my-auto">
+    <div class="col-md-6 px-5 py-3 my-auto">
       <h1 class="mb-4">{{ title }}</h1>
       <slot>
         <p class="text-center">no slot content defined.</p>
