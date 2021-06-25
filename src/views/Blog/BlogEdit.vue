@@ -35,7 +35,7 @@
             <span class="text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
           <!-- Image -->
-          <ValidationProvider 
+          <!-- <ValidationProvider 
             name="Image" 
             rules="required" 
             v-slot="{ errors }"
@@ -49,7 +49,7 @@
               ></b-form-file>
             </b-form-group>
             <span class="text-danger">{{ errors[0] }}</span>
-          </ValidationProvider>
+          </ValidationProvider> -->
           <!-- Description -->
           <ValidationProvider 
             name="Description" 
@@ -77,19 +77,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 export default {
   data() {
     return {
+      blogId: this.$route.params.blogId,
       slug: null,
       title: null,
       description: null,
       error: null,
       file: null,
     }
-  },
-  computed: {
-    ...mapState('user', ['user']),
   },
   watch: {
     title: function(val) {
@@ -105,35 +102,38 @@ export default {
     async onSubmit() {
       this.error = null;
 
-      const formData = new FormData();
-
-      formData.append('file', this.file)
-
       const data = {
-        user_id: this.user.id,
+        id: this.blogId,
         slug: this.slug,
         title: this.title,
         description: this.description,
         // file: formData
       };
 
-      const entries = Object.entries(data)
-      for (const [key, value] of entries) {
-        // console.log(`formData.append(${key}, ${value});`);
-        formData.append(key, value);
-      }
-      // console.log(formData);
-
       try {
-        const response = await this.$store.dispatch('blog/addBlog', formData);
+        const response = await this.$store.dispatch('blog/updateBlog', data);
         // !useless this.$store.commit('blog/SET_BLOGS', response.data);
         this.$router.push('/');
       } catch (err) {
         console.log(err.response.data.message);
         this.error = err.response.data.message;
       }
+    },
+    setData(data) {
+      this.slug = data.slug
+      this.title = data.title
+      this.description = data.description
+    },
+  },
+  async mounted() {
+    try {
+      const response = await this.$store.dispatch('blog/getBlogById', this.blogId);
+      // console.log(response.data);
+      this.setData(response.data);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  },
 }
 </script>
 

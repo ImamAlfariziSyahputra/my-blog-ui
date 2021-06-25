@@ -8,6 +8,7 @@ import blog from './modules/blog';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  strict: true,
   plugins: [createPersistedState()],
   state: {
   },
