@@ -105,28 +105,23 @@ export default {
     async onSubmit() {
       this.error = null;
 
-      const formData = new FormData();
-
-      formData.append('file', this.file)
-
       const data = {
         user_id: this.user.id,
         slug: this.slug,
         title: this.title,
         description: this.description,
-        // file: formData
       };
+
+      const formData = new FormData();
+      formData.append('file', this.file)
 
       const entries = Object.entries(data)
       for (const [key, value] of entries) {
-        // console.log(`formData.append(${key}, ${value});`);
         formData.append(key, value);
       }
-      // console.log(formData);
 
       try {
         const response = await this.$store.dispatch('blog/addBlog', formData);
-        // !useless this.$store.commit('blog/SET_BLOGS', response.data);
         this.$router.push('/');
       } catch (err) {
         console.log(err.response.data.message);

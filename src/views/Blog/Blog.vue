@@ -1,9 +1,18 @@
 <template>
   <div class="container">
+    <div class="d-flex justify-content-lg-between mt-3">
+      <b-form-input
+        class=""
+        style="border-radius: 0%"
+        v-model="searchBlog"
+        placeholder="Search blogs..."
+        required
+      ></b-form-input>
+    </div>
     <div class="row row-cols-1 row-cols-md-2 no-gutters pt-4" v-if="blogs">
-        <div class="col-md-8 mb-3">
+        <div class="col-sm-8 col-md-8 mb-3">
           <div class="card mb-4" v-for="blog in blogs" :key="blog.id">
-            <img :src="`http://localhost:3000/images/${blog.image_path ? blog.image_path : ''}`" class="card-img-top" alt="post-image">
+            <img :src="`http://localhost:3000/images/${blog.image_path ? blog.image_path : 'default.jpg'}`" class="card-img-top" alt="post-image">
             <div class="card-body">
               <router-link 
                 :to="`/blog/${blog.id}`" 
@@ -28,11 +37,21 @@ export default {
   components: {
     BlogSide,
   },
+  data() {
+    return {
+      searchBlog: null,
+    }
+  },
   computed: {
     ...mapState('blog', ['blogs']),
   },
-  mounted() {
-    this.$store.dispatch('blog/getBlogs')
+  watch: {
+    searchBlog: function (val) {
+      
+    }
+  },
+  async mounted() {
+    const response = await this.$store.dispatch('blog/getBlogs');
   }
 }
 </script>

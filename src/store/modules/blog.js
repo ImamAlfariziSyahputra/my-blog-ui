@@ -33,10 +33,11 @@ export default {
     },
     async updateBlog({commit}, payload) {
       const response = await BlogService.update(payload);
+      return console.log(payload.get('id'));
       return response;
     },
-    async deleteBlog({commit}, blogId) {
-      const response = await BlogService.delete(blogId);
+    async deleteBlog({commit}, payload) {
+      const response = await BlogService.delete(payload);
       return response;
     },
   },

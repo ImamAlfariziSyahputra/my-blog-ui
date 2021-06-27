@@ -12,9 +12,12 @@ export default {
     return Api.post(END_POINT, payload);
   },
   update(payload) {
-    return Api.put(`${END_POINT}/${payload.id}`, payload);
+    // get id from formData object
+    const id = payload.get('id');
+    return Api.put(`${END_POINT}/${id}`, payload);
   },
-  delete(blogId) {
-    return Api.delete(`${END_POINT}/${blogId}`, );
+  delete(payload) {
+    // !using { data: payload } to bring payload when axios delete method
+    return Api.delete(`${END_POINT}/${payload.id}`, { data: payload});
   },
 }

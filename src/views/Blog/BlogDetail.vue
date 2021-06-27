@@ -1,7 +1,8 @@
 <template>
   <div v-if="blog">
-    <div class="text-center">
-      <img :src="`http://localhost:3000/images/${blog.image_path}`" alt="" class="">
+    <div class="text-center img-wrapper">
+      <!-- <img :src="`http://localhost:3000/images/${blog.image_path}`" alt="" class=""> -->
+      <b-img :src="`http://localhost:3000/images/${blog.image_path ? blog.image_path : 'default.jpg'}`" fluid alt="Fluid image"></b-img>
     </div>
     <div class="body">
       <div class="my-5">
@@ -42,8 +43,13 @@ export default {
   },
   methods: {
     async deleteBlog() {
+      const data = {
+        id: this.blogId,
+        image_path: this.blog.image_path,
+      };
+
       try {
-        const response = await this.$store.dispatch('blog/deleteBlog', this.blogId)
+        const response = await this.$store.dispatch('blog/deleteBlog', data)
         if (response.status == 200) {
           this.$router.push('/');
         } else {
@@ -65,8 +71,8 @@ export default {
 </script>
 
 <style scoped>
-img {
-  width: 80%;
+.img-wrapper {
+  margin: 0 6rem 0;
 }
 .body {
   margin: 0 12rem;
